@@ -88,12 +88,15 @@ export default function Signup() {
     const handleSignUp=async()=>{
         if(file==null)
         {
-            setError("Please upload your profile Image")
+            setError("Please upload your profile Image");
+            setTimeout(()=>{
+                setError('')
+            },2000)
             return;
         }
         try {
-            setError("")
-            setLoading(true)
+            setError("");
+            setLoading(true);
            let userCredential= await signup(email, password);
            let uid = userCredential.user.uid;
         //    console.log(uid);
@@ -110,8 +113,6 @@ export default function Signup() {
     setError("Failed to upload File")
   }, 
   () => {
-    // Handle successful uploads on complete
-    // For instance, get the download URL: https://firebasestorage.googleapis.com/...
     uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
     //   console.log('File available at', downloadURL);
       database.users.doc(uid).set({
@@ -124,7 +125,6 @@ export default function Signup() {
     });
   }
 );
-
             history.push("/")
           } catch(e) {
             setError("Failed to create an account "+e)

@@ -19,57 +19,53 @@ import Likes from './Likes';
 import Likes2 from './Likes2';
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogContent from '@material-ui/core/DialogContent';
-import Comments from './Comments'
-import AddComment from './AddComment'
+import Comments from './Comments';
+import AddComment from './AddComment';
+const useStyles = makeStyles({
+  root: {
+    width: '100%',
+    padding: '0px'
+  },
+  loader: {
+    position: 'absolute',
+    left: '50%',
+    top: '50%'
+  },
+  typo: {
+    marginLeft: '2%'
+  },
+  vac: {
+    marginLeft: '3.5%',
+    color: '#8e8e8e',
+    cursor:'pointer'
+  },
+  dp: {
+    marginLeft: '2%'
+  },
+  cc: {
+    height: '50vh',
+    overflowY: 'auto'
+  },
+  seeComments:{
+    height:'54vh',
+    overflowY:'auto'
+  },
+  ci:{
+  
+    color: 'white',
+    left:'9%',
+    cursor:'pointer'
+  },
+  mn:{
+    color:'white',
+  },
+  tmn:{
+    color:'white'
+  }
+});
 export default function Posts({ userData = null }) {
-  const useStyles = makeStyles({
-    root: {
-      width: '100%',
-      padding: '0px'
-    },
-    loader: {
-      position: 'absolute',
-      left: '50%',
-      top: '50%'
-    },
-    typo: {
-      marginLeft: '2%'
-    },
-    vac: {
-      marginLeft: '3.5%',
-      color: '#8e8e8e',
-      cursor:'pointer'
-    },
-    dp: {
-      marginLeft: '2%'
-    },
-    cc: {
-      height: '50vh',
-      overflowY: 'auto'
-    },
-    seeComments:{
-      height:'54vh',
-      overflowY:'auto'
-    },
-    ci:{
-    
-      color: 'white',
-      left:'9%',
-      cursor:'pointer'
-    },
-    mn:{
-      color:'white',
-      
-     
-    },
-    tmn:{
-      color:'white'
-    }
-
-  });
   const [openId, setOpenId] = useState(null);
   const history = useHistory();
-  // const [open, setOpen] = useState(false);
   const handleProfileClick = (id)=>{
     history.push(`/profile/${id}`)
   }
@@ -79,7 +75,6 @@ export default function Posts({ userData = null }) {
   const handleClose = () => {
     setOpenId(null);
   };
-  
   const classes = useStyles();
   const [posts, setPosts] = useState(null);
   // const [comments,setComments] =useState(null) 
@@ -88,6 +83,7 @@ export default function Posts({ userData = null }) {
     entries.forEach(element => {
       let child = element.target.childNodes[0];
       let id = child.getAttribute("id");
+      console.log(id);
       let el = document.getElementById(`${id}`);
       // if(element.intersectionRatio!=1 && !el.paused){
 
@@ -95,36 +91,32 @@ export default function Posts({ userData = null }) {
       //   // console.log(p);
       // }
       // else if(element.isIntersecting==true && el.paused ) {
-
       //   // console.log(el)
-
       //     el.play(); 
       //   // console.log(p)
 
       // }
+      // el.play is asynchronous
       el.play().then(() => {
-        if (element.intersectionRatio != 1 && !el.paused && element.isIntersecting != true) {
-
+        if ( !el.paused && element.isIntersecting != true) {
           el.pause();
           // console.log(p);
         }
       })
-
     });
   };
   const observer = new IntersectionObserver(callback, {
-
     threshold: 0.85,
   });
   useEffect(() => {
     let parr = [];
     const unsub=database.posts.orderBy('createdAt','desc').onSnapshot(querySnapshot => {
-      console.log('The snapshot method was called')
+      // console.log('The snapshot method was called')
       parr = [];
       querySnapshot.forEach((doc) => {
         // doc.data() is never undefined for query doc snapshots
         // console.log(doc.id, " => ", doc.data());
-        console.log("The loop was executed")
+        // console.log("The loop was executed")
         let data = { ...doc.data(), postId: doc.id }
         // console.log(data);
         parr.push(data);
@@ -134,22 +126,19 @@ export default function Posts({ userData = null }) {
     // .catch((error) => {
     //     console.log("Error getting documents: ", error);
     // });
-
     // unsub();
     return unsub;
   }, [])
   useEffect(() => {
     if (typeof window == 'object') {
-
       let elements = document.querySelectorAll('.videos')
       // console.log(elements)
       elements.forEach(el => {
         // console.log(el);
-        observer.observe(el)
+        observer.observe(el);
       })
       // console.log(posts)
       return () =>{
-      
         observer.disconnect();
         console.log('removed');      
       } 
@@ -162,7 +151,6 @@ export default function Posts({ userData = null }) {
         <div className='video-container' id="video-container">
           {posts.map((post, index) => (
             <React.Fragment key={index}>
-           
                     <div className="videos">
                       <Video source={post.pUrl} id={post.pId} />
                       <div className='fa' style={{display:'flex'}}>
@@ -173,15 +161,12 @@ export default function Posts({ userData = null }) {
                       <Ticker direction='toRight' offset='20%' mode='smooth'>
         {({ index }) => (
             <>
-            
            <Typography align='center' variant='subtitle2' className={classes.tmn}>
              <MusicNoteIcon fontSize='small' className={classes.mn} /> This is sample
-           </Typography>
-            
-          
+           </Typography> 
             </>
         )}
-    </Ticker>
+                    </Ticker>
                       </div>
                       <Likes userData={userData} postData={post} />
                       <ChatBubbleIcon onClick={() => handleClickOpen(post.pId)} className={`${classes.ci} icon-styling`} />
@@ -193,14 +178,11 @@ export default function Posts({ userData = null }) {
                                 <source src={post.pUrl} type="video/webm" />
                               </video>
                             </div>
-
                             <div className='info-part'>
-
                               <Card>
                                 <CardHeader
                                   avatar={
                                     <Avatar src={post?.uProfile} aria-label="recipe" className={classes.avatar}>
-
                                     </Avatar>
                                   }
                                   action={
@@ -209,15 +191,11 @@ export default function Posts({ userData = null }) {
                                     </IconButton>
                                   }
                                   title={post?.uName}
-
                                 />
-                                
                                 <hr style={{ border: "none", height: "1px", color: "#dfe6e9", backgroundColor: "#dfe6e9" }} />
                                 <CardContent className={classes.seeComments}>
-                                  
                                 <Comments userData={userData} postData={post} />
-                                </CardContent>
-                                
+                                </CardContent> 
                               </Card>
                               <div className='extra'>
                               <div className='likes'>

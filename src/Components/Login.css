@@ -6,7 +6,6 @@
    align-items: center;
    flex-wrap: wrap;
 }
-
 .imgcar
 {
     width: 441px;
@@ -25,10 +24,7 @@
     align-items: center;
     justify-content: center;
 }
-.center-div
-{
-    
-}
+
 .caro
 {
     height: 423px;

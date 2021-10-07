@@ -1,4 +1,3 @@
-
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { AuthProvider } from "./Context/AuthContext"
 import Login from "./Components/Login"
@@ -12,17 +11,12 @@ function App() {
           <AuthProvider>
             <Switch>
               <PrivateRoute exact path="/" component={Feed}/>
-              {/* <PrivateRoute exact path='/folder/:folderId' component={Dashboard}/>
-              <PrivateRoute  path="/user" component={Profile} />
-              <Route path="/signup" component={Signup} /> */}
-             
               <Route exact path="/login" component={Login} />
               <Route exact path="/signup" component={Signup} />
-              <Route exact path='/profile/:id' component={Profile}/>
+              <Route exact path='/profile/:id' component={Profile} />
             </Switch>
           </AuthProvider>
         </Router>
   );
 }
-
 export default App;

@@ -3,22 +3,17 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import { makeStyles } from '@material-ui/core/styles';
 import {database} from '../firebase';
 export default function Likes({userData=null,postData=null}) {
-  console.log('rendered');
+  // console.log('rendered');
     const useStyles = makeStyles({
      like:{
          color:'#e74c3c',
          cursor:'pointer',
-      
-    
      },
      unlike:{
         cursor:'pointer',
-     
         color:'white'
      }
- 
       });
-      
       useEffect(() => {
         // console.log(userData);
         let check = postData.likes.includes(userData?.userId)?true:false;
@@ -38,8 +33,7 @@ export default function Likes({userData=null,postData=null}) {
                 // setLike(false);
               }).catch((e=>{
                 //   console.log(e);
-              }))
-             
+              }))    
           }
           else
           {
@@ -53,8 +47,6 @@ export default function Likes({userData=null,postData=null}) {
             }).catch((e=>{
                 // console.log(e);
             }))
-
-             
 
           }
       }

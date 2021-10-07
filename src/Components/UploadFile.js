@@ -17,7 +17,6 @@ export default function UploadFile(props) {
       // console.log(props)
       if(file==null)
       {
-        
         setError("Please select a file");
         setTimeout(()=>{
           setError(null);
@@ -43,20 +42,16 @@ export default function UploadFile(props) {
       }
       //initially we will be making it by using the firestore's id..this will be served as an improvement.
       const id =uuidv4();
-      const uploadTask = storage.ref(`/posts/${props.userData.userId}/${file.name}`).put(file);
-    
+      const uploadTask = storage.ref(`/posts/${props.userData.userId}/${file.name}`).put(file);    
       uploadTask.on('state_changed',snapshot=>{
         const progress = snapshot.bytesTransferred/snapshot.totalBytes;
        //this callback is for providing the progress
     },()=>{
           setError("There was an error in uploading the file");
-          
           return;
     },()=>{
-       
       setLoading(true)
         uploadTask.snapshot.ref.getDownloadURL().then(url=>{
-          
           let obj = {
             comments:[],
             likes:[],
@@ -68,11 +63,9 @@ export default function UploadFile(props) {
             createdAt:database.getCurrentTimeStamp()
           }
           database.posts.add(obj).then(async docRef=>{
-           
            let res = await  database.users.doc(props.userData.userId).update({
               postIds:[...props.userData.postIds,docRef.id]
             })
-          
           }).then(()=>{
             // props.setPosts([...props.posts,obj])
             setLoading(false);
@@ -83,13 +76,9 @@ export default function UploadFile(props) {
               setError(null);
             },2000)
             setLoading(false);
-          })
-         
-         
+          })   
         })
     })
-
-     
     }
     return (
         <div>

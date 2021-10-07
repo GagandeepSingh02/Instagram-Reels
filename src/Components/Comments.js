@@ -4,9 +4,8 @@ import './Comments.css'
 import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import CircularProgress from '@material-ui/core/CircularProgress';
-
 export default function Comments(props) {
-    console.log('rendered comments');
+    // console.log('rendered comments');
     const [comments,setComments] =useState(null) 
     const useStyles = makeStyles({
         da:{
@@ -16,20 +15,12 @@ export default function Comments(props) {
     })
     const classes = useStyles();
     useEffect(async() => {
-        console.log("The use Effect of comments was called.")
+        // console.log("The use Effect of comments was called.")
         let arr=[];
-       
         // console.log(props.userData);
-        // console.log(props.postData.comments);
-        
+        // console.log(props.postData.comments);        
         for(let i=0;i<props.postData.comments.length;i++)
-        {
-            console.log("The use Effect of comments was called.")
-            // flag++;
-            // let cid=props.comments[i];
-            // database.comments.doc(cid).onSnapshot((doc)=>{
-            //     arr.push(doc.data());
-            // });
+        {  
             let cid=props.postData.comments[i];
             let data = await database.comments.doc(cid).get();
             // console.log(data.data());
@@ -38,9 +29,6 @@ export default function Comments(props) {
         // let obj = {...props.comments,[props.postData.pId]:arr}
         setComments(arr);
         // console.log(props.comments)
-    
-       
-    
       },[props.postData])
     
     return (

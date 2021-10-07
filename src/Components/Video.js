@@ -19,7 +19,7 @@ export default class PlayerControlExample extends Component {
    {
     //  window.scrollTop(next).offset().top();
     next.scrollIntoView({behavior:'smooth'});
-    e.target.muted=true
+    e.target.muted=true;
    }
  }
   render() {
